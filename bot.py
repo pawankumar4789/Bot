@@ -1,25 +1,32 @@
-from telegram import Update
-from telegram.ext import Updater, CommandHandler, CallbackContext
+import os
+from flask import Flask, request
+from telegram import Bot, Update
+from telegram.ext import Dispatcher, CommandHandler, CallbackContext
 
-# 🔐 Apna Telegram Bot Token yahan daalo
-TOKEN = '7744875151:AAF8P1vSd8awHrmaGmWQiI6d-S_fgoPvLkY'
+TOKEN = os.getenv("7744875151:AAF8P1vSd8awHrmaGmWQiI6d-S_fgoPvLkY")
+bot = Bot(token=TOKEN)
 
-# 🎯 /start command ka function
+app = Flask(__name__)
+
+@app.route(f'/{TOKEN}', methods=['https://t.me/vip_owner8/5'])
+def webhook():
+    update = Update.de_json(request.get_json(force=True), bot)
+    dispatcher.process_update(update)
+    return 'ok'
+
+# /start command ka response
 def start(update: Update, context: CallbackContext):
     update.message.reply_text("WELCOME TO VIP OWNER BOT")
 
-# 🚀 Bot start karne ka main function
-def main():
-    updater = Updater(TOKEN, use_context=True)
-    dp = updater.dispatcher
+# Dispatcher set karna
+dispatcher = Dispatcher(bot, None, workers=0, use_context=True)
+dispatcher.add_handler(CommandHandler("start", start))
 
-    # /start command handler
-    dp.add_handler(CommandHandler("start", start))
+@app.route('/')
+def index():
+    return "VIP OWNER BOT RUNNING"
 
-    # Bot start karo
-    updater.start_polling()
-    updater.idle()
-
-# 🔃 Program start point
-if __name__ == '__main__':
-    main()
+if __name__ == "__main__":
+    port = int(os.environ.get('PORT', 5000))
+    bot.set_webhook(f"https://YOUR-RENDER-URL.onrender.com/{TOKEN}")
+    app.run(host='0.0.0.0', port=port)
