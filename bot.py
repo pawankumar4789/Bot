@@ -8,7 +8,7 @@ bot = Bot(token=TOKEN)
 
 app = Flask(__name__)
 
-@app.route(f'/{TOKEN}', methods=['https://t.me/vip_owner8/5'])
+@app.route(f'/{TOKEN}', methods=['POST'])
 def webhook():
     update = Update.de_json(request.get_json(force=True), bot)
     dispatcher.process_update(update)
@@ -28,5 +28,5 @@ def index():
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
-    bot.set_webhook(f"https://YOUR-RENDER-URL.onrender.com/{TOKEN}")
+    bot.set_webhook(f"Render Dashboard https://share.google/L7q2X2bEiYTsGp95J/{TOKEN}")
     app.run(host='0.0.0.0', port=port)
