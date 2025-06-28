@@ -14,4 +14,4 @@ def start(update: Update, context: CallbackContext) -> None:
         [InlineKeyboardButton("Buy Item", callback_data='buy_item')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    update.
+    update.message.reply_text("WELCOME TO VIP OWNER BOT")
